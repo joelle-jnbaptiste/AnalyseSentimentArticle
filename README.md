@@ -18,6 +18,7 @@ _Date : Avril 2025_
   - [Versionnement et stockage](#versionnement-et-stockage)
   - [Tests unitaires](#tests-unitaires)
   - [Déploiement de l’API](#déploiement-de-lapi)
+  - [Interface front de test (locale)](#interface-front-de-test-locale)
   - [Monitoring et alertes](#monitoring-et-alertes)
 - [Proposition de démarche pour l'amélioration continue du modèle](#proposition-de-démarche-pour-lamélioration-continue-du-modèle)
 - [Conclusion](#conclusion)
@@ -214,8 +215,6 @@ Voici les endpoints disponibles :
 
 ![Swagger UI FastAPI](images/swagger.png)
 
----
-
 #### Exemple d’appel à `/predict`
 
 ```json
@@ -238,9 +237,66 @@ Voici les endpoints disponibles :
 
 ![Test de l’endpoint feedback](images/endpointFeedback.png)
 
+Ce déploiement permet de rendre le modèle disponible à des utilisateurs externes, tout en facilitant la supervision et les mises à jour grâce à la conteneurisation et à l’automatisation des workflows.
+
 ---
 
-Ce déploiement permet de rendre le modèle disponible à des utilisateurs externes, tout en facilitant la supervision et les mises à jour grâce à la conteneurisation et à l’automatisation des workflows.
+### Interface front de test (locale)
+
+Pour permettre une évaluation simple de l’API sans passer par des outils externes, une interface utilisateur légère a été développée avec **Streamlit**.
+
+Ce front-end n’est pas déployé sur le cloud, mais peut être lancé localement pour :
+
+- Tester le comportement du modèle (`/predict`)
+- Visualiser la prédiction sous forme lisible (positif/négatif)
+- Soumettre un retour utilisateur (`/feedback`)
+- Envoyer les feedbacks en un clic
+
+#### Fonctionnement
+
+L’utilisateur entre un message libre dans un champ texte, clique sur "Analyser le sentiment", et obtient une réponse immédiate.  
+Il peut ensuite valider ou invalider la prédiction via une interface radio + bouton, ce qui déclenche l’appel au second endpoint.
+
+Voici quelques captures d’écran illustrant le parcours :
+
+- Interface au démarrage :
+
+  ![Formulaire vide](images/appBlank.png)
+
+- Exemple de prédiction négative avec retour utilisateur :
+
+  ![Prédiction négative](images/appNegatif.png)  
+  ![Feedback envoyé](images/appFeedback.png)
+
+- Exemple de prédiction positive :
+
+  ![Prédiction positive](images/appPositif.png)
+
+#### Lancement local
+
+Le front est accessible uniquement localement.  
+Pour le démarrer :
+
+```bash
+streamlit run app.py
+```
+
+Cela ouvre automatiquement l’application dans le navigateur à l’adresse suivante :
+
+```
+http://localhost:8501
+```
+
+Il est également possible de personnaliser les endpoints dans le code pour pointer vers une instance distante, mais ce front a été conçu principalement à des fins de test.
+
+**Résumé :**
+
+- Développé avec Streamlit
+- Permet de tester `/predict` et `/feedback`
+- Lancement simple en local
+- Non déployé dans le cloud
+
+---
 
 ### Monitoring et alertes
 
