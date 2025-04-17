@@ -14,14 +14,25 @@ _Date : Avril 2025_
   - [Modèle avancé BERT](#modèle-avancé-bert)
 - [Démarche MLOps mise en œuvre](#démarche-mlops-mise-en-œuvre)
   - [Principes généraux](#principes-généraux)
+  - [Cycle MLOps du projet](#cycle-mlops-du-projet)
   - [Suivi des expérimentations](#suivi-des-expérimentations)
-  - [Versionnement et stockage](#versionnement-et-stockage)
   - [Tests unitaires](#tests-unitaires)
+  - [Architecture applicative déployée sur Azure](#architecture-applicative-déployée-sur-azure)
   - [Déploiement de l’API](#déploiement-de-lapi)
   - [Interface front de test (locale)](#interface-front-de-test-locale)
   - [Monitoring et alertes](#monitoring-et-alertes)
 - [Proposition de démarche pour l'amélioration continue du modèle](#proposition-de-démarche-pour-lamélioration-continue-du-modèle)
 - [Conclusion](#conclusion)
+
+---
+
+### 🔗 Liens vers les dépôts du projet
+
+- 💻 **Backend (API FastAPI + modèle TFLite + déploiement Azure)**  
+  [https://github.com/joelle-jnbaptiste/Analyse_Sentiments](https://github.com/joelle-jnbaptiste/Analyse_Sentiments)
+
+- 🧪 **Frontend (Interface de test locale en Streamlit)**  
+  [https://github.com/joelle-jnbaptiste/FrontAnalyseSentiment](https://github.com/joelle-jnbaptiste/FrontAnalyseSentiment)
 
 ---
 
@@ -82,6 +93,13 @@ Les objectifs sont les suivants :
 - **Amélioration continue** : collecte de feedbacks utilisateurs pour affiner le modèle
 
 Ces principes ont guidé la mise en œuvre technique décrite dans les sous-sections suivantes.
+
+### Cycle MLOps du projet
+
+Le schéma suivant illustre la **vision globale du cycle MLOps** mise en place dans le projet.  
+On y retrouve les phases principales allant du développement à la mise en production, en passant par la validation, la surveillance et une proposition de boucle d'amélioration continue.
+
+![Cycle MLOps](images/cycleMLOps.png)
 
 ### Suivi des expérimentations
 
@@ -160,6 +178,21 @@ Voici deux captures d'écran illustrant cette intégration :
 ![Rapport pytest GitHub](images/githubTest.png)
 
 Cette stratégie permet de sécuriser la phase de développement, de détecter rapidement les erreurs, et de favoriser une meilleure qualité de code dans le temps.
+
+---
+
+### Architecture applicative déployée sur Azure
+
+Le diagramme suivant présente les différents composants du projet et leur interaction entre la **partie locale (frontend Streamlit)** et l’**infrastructure cloud (API déployée, Application Insights, alerting)**.
+
+On y visualise :
+
+- Le fonctionnement du front local en interaction avec l’API (`/predict` et `/feedback`)
+- Le traitement de ces requêtes via le container Azure
+- La journalisation des feedbacks dans Application Insights
+- Le système d’alerte déclenché en cas d’erreurs répétées
+
+![Architecture Azure](images/application.png)
 
 ---
 
